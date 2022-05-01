@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  AbstractControl,
-} from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { CustomValidators } from '../custom-validators';
 
 @Component({
@@ -19,7 +14,7 @@ export class EquationComponent implements OnInit {
       b: new FormControl(this.randomNumber()),
       answer: new FormControl(''),
     },
-    [CustomValidators.addition]
+    [CustomValidators.addition('answer', 'a', 'b')]
   );
   constructor() {}
 
@@ -31,9 +26,13 @@ export class EquationComponent implements OnInit {
     return this.mathForm.value.b;
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.mathForm.statusChanges.subscribe((value) => console.log(value));
+  }
 
   randomNumber() {
     return Math.floor(Math.random() * 10);
   }
 }
+
+//statusChanges is an observable
